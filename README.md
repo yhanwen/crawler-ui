@@ -1,5 +1,5 @@
 # CrawlerUI
-CrawlerUI - A Easier Way To Use Graph Database
+CrawlerUI - A UI for Crawler https://github.com/crawlerclub/crawler
 
 #### Build Setup
 
