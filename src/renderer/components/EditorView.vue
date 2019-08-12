@@ -30,7 +30,7 @@
           <el-radio :label="false"></el-radio>
         </el-radio-group>
       </el-form-item>
-      <div class="item-group" v-for="(items, key) in page.rules" :key="key">
+      <div class="item-group" v-for="{items, key} in page.rules" :key="key">
         <el-form-item label="Section">
           <el-input :value="key"></el-input>
         </el-form-item>
@@ -98,7 +98,7 @@ export default {
       confData: (state) => {
         const pages = JSON.parse(JSON.stringify(state.confData));
         pages.forEach((res) => {
-          Object.keys(res.rules || {}).forEach((key) => {
+          res.rules = Object.keys(res.rules || {}).map((key) => {
             const items = res.rules[key];
             items.forEach((item) => {
             // eslint-disable-next-line prefer-destructuring
@@ -107,6 +107,21 @@ export default {
                 item.re = re.join('\n');
               }
             });
+            return {
+              key,
+              items,
+            };
+          }).sort((a, b) => {
+            if (a.key === 'root') {
+              return -1;
+            }
+            if (b.key === 'root') {
+              return 1;
+            }
+            if (a.key > b.key) {
+              return -1;
+            }
+            return 1;
           });
         });
         return pages;
